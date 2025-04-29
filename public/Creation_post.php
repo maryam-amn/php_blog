@@ -33,6 +33,8 @@
         <input type="text" placeholder="Enter post title">
         <label> Description</label>
         <input type="text" placeholder="Enter a description">
+        <label> Image </label>
+        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"/>
         <label>Post content</label>
         <textarea placeholder="Enter you content "></textarea>
         <button>Post the blog</button>

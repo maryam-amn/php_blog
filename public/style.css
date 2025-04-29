@@ -68,7 +68,7 @@ label {
     font-weight: bold;
 }
 
-input[type="text"], input[type = 'number'] {
+input[type="text"], input[type = 'number']{
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -76,7 +76,15 @@ input[type="text"], input[type = 'number'] {
     border-radius: 4px;
     box-sizing: border-box;
 }
-
+input[type = "file"] {
+    width: 100%;
+    padding: 10px;
+    padding-left: 0px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 textarea {
     height: 150px;
     width: 600px;
@@ -88,7 +96,7 @@ textarea {
     resize: block;
 }
 
-button {
+button{
     margin-top: 20px;
     padding: 10px 20px;
     background-color: #e5a5e2;
@@ -98,7 +106,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+button:hover{
     background-color: #7a1c76;
 }
 
@@ -153,7 +161,6 @@ img {
 }
 
 .font-post-homepage button {
-  /* Animation douce */
     margin: 0px;
    margin: 5px;
     border-radius: 5px;
@@ -163,11 +170,11 @@ img {
     height: 200px;
     margin: 10px;
     border-radius: 20px;
-    transition: transform 0.3s ease; /* Animation douce */
+    transition: transform 0.3s ease;
 }
 
 .font-post-homepage img:hover {
-    transform: scale(1.02); /* Agrandit l'image sur hover */
+    transform: scale(1.02);
 }
 
 
@@ -195,13 +202,18 @@ mark {
     background-color: #d8cbe6;
 }
 
-
-
-
-
-
-
-
+::file-selector-button {
+    margin-top: 0px;
+    padding: 5px;
+    background-color: #cab3df;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+::file-selector-button:hover{
+    background-color: #a07ebf;
+}
 
 
 

@@ -33,9 +33,12 @@
         <input type="text" placeholder="Enter post title">
         <label>Post number</label>
         <input type="number" placeholder="Enter post number">
+        <label> Image </label>
+        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"/>
         <label>Post content</label>
         <textarea placeholder="Enter you content "></textarea>
         <button>Post the blog</button>
+
     </form>
 
 </section>
