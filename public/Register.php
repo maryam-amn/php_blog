@@ -1,7 +1,7 @@
 <?php
 
 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
-$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
+$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
 $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -15,13 +15,17 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
-if ($username == '') {
+if (empty($username)) {
     $errors_username['username'] = 'Username is required';
-} elseif ($email == '') {
-    $errors['email'] = 'Email is required';
-} elseif ($password == '') {
+} elseif (strlen(trim($username)) < 3) {
+    $errors['username'] = 'Username is too short';
+} elseif (empty($email)) {
+    $errors['email'] = 'You need to provide a valid email';
+} elseif (empty($password)) {
     $errors['password'] = 'Password is required';
-} elseif ($confirm_password == '') {
+} elseif (strlen(trim($password)) < 6) {
+    $errors['password'] = 'Password is too short';
+} elseif (empty($confirm_password)) {
     $errors['confirm_password'] = 'Confirm password ';
 } elseif ($password !== $confirm_password) {
     $errors['confirm_password'] = 'Passwords do not match';
