@@ -1,3 +1,4 @@
+<?php #password verify ?>
 <!doctype html>
 <html lang="en">
 <head>

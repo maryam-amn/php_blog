@@ -1,3 +1,61 @@
+<?php
+
+$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
+$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+$confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_SPECIAL_CHARS);
+
+$errors = [];
+$errors_username = [];
+
+$dbs = 'sqlite:../Database.db';
+
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
+if ($username == '') {
+    $errors_username['username'] = 'Username is required';
+} elseif ($email == '') {
+    $errors['email'] = 'Email is required';
+} elseif ($password == '') {
+    $errors['password'] = 'Password is required';
+} elseif ($confirm_password == '') {
+    $errors['confirm_password'] = 'Confirm password ';
+} elseif ($password !== $confirm_password) {
+    $errors['confirm_password'] = 'Passwords do not match';
+} else {
+
+    try {
+        $db = new PDO($dbs, '', '', $options);
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $username && $password && $email) {
+            $check = $db->prepare('SELECT * FROM user WHERE name = :name OR email = :email');
+            $check->execute(['name' => $username, 'email' => $email]);
+            if ($check->fetchColumn() > 0) {
+                $errors[] = 'Username or email already exists';
+            } else {
+                $query = $db->prepare('INSERT INTO user (name, email, password) VALUES (:name, :email, :password)');
+
+                $query->execute([
+                    'name' => $username,
+                    'email' => $email,
+                    'password' => $password_hash,
+                ]);
+                header('Location: Login.php');
+                exit();
+            }
+
+        }
+    } catch (PDOException $e) {
+        $errors[] = 'Database error : '.$e->getMessage();
+    }
+}
+
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,11 +68,11 @@
 
 </head>
 <body>
-<div class="header" >
+<div class="header">
     <div class="space-between">
     </div>
     <div class="page-ref">
-        <a href="index.php" >Home </a>
+        <a href="index.php">Home </a>
         <a href="Creation_post.php">Create a post</a>
         <a href="Edition_post.php">Edit a post</a>
         <a href="Detail_post.php"> View the details of a post</a>
@@ -34,27 +92,33 @@
 
             <p>Create your account </p>
 
-            <form>
+            <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
                 <div class="enter_information">
-                    <label>Username</label>
-                    <input type="text" placeholder="Enter your password">
+                    <label for="username" id="username">Username</label>
+
+                    <input type="text" placeholder="Enter your password" id="username" name="username">
                 </div>
 
                 <div class="enter_information">
-                    <label>Email  </label>
-                    <input type="email" placeholder="Enter you email or username">
+                    <label for="email" id="email">Email </label>
+                    <input type="email" placeholder="Enter you email or username" id="email" name="email">
                 </div>
 
                 <div class="enter_information">
-                    <label>Passwords</label>
-                    <input type="password" placeholder="Enter your password">
+                    <label for="password" id="password">Passwords</label>
+                    <input type="password" placeholder="Enter your password" id="password" name="password">
                 </div>
 
                 <div class="enter_information">
-                    <label>Confirm your password</label>
-                    <input type="password" placeholder="Enter your password">
+                    <label for="confirm_password" id="confirm_password">Confirm your password</label>
+                    <input type="password" placeholder="Enter your password" id="confirm_password"
+                           name="confirm_password">
                 </div>
-
+                <?php if (count($errors) > 0) { ?>
+                    <?php foreach ($errors as $error) { ?>
+                        <p id="errors_message"><?= $error ?></p>
+                    <?php } ?>
+                <?php } ?>
                 <button>Register</button>
 
                 <div class="t">
@@ -68,6 +132,7 @@
 
 
 </div>
+
 </body>
 </html>
 
