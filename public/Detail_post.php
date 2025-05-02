@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Details post </title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-page/style.css">
 
 </head>
 <body>
@@ -28,7 +28,7 @@
 <div class="details-space">
     <div class="detail-post">
         <h4 class="text-paragraphe">Le jardinage</h4>
-        <a href="Detail_post.php"> <img src="login_img.jpg"> </a>
+        <a href="Detail_post.php"> <img src="image/login_img.jpg"> </a>
         <p>
             <mark>Description :</mark>
         </p>
