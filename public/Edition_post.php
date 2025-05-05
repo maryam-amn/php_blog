@@ -30,9 +30,9 @@
     <p> Write the new content of your blog here </p>
     <form>
         <label>Post Title</label>
-        <input type="text" placeholder="Enter post title">
+        <input type="text" placeholder="Enter post title" class="input">
         <label>Post number</label>
-        <input type="number" placeholder="Enter post number">
+        <input type="number" placeholder="Enter post number" class="input">
         <label> Image </label>
         <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"/>
         <label>Post content</label>

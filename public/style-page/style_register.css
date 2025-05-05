@@ -14,7 +14,7 @@ p {
     gap: 20px;
     border-radius: 20px;
     text-align: center;
-    background-image: url("../image/login_img.jpg");
+    background-image: url("../style-image/login_img.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -67,16 +67,6 @@ style-space {
     width: 40%;
     gap: 5px;
 }
-
-
-
-
-
-
-
-
-
-
 
 #errors_message{
     font-size: 12px;

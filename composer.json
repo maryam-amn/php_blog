@@ -12,6 +12,9 @@
             "email": "Maryam.Aman@jobtrek.ch"
         }
     ],
+    "require": {
+        "ext-pdo": "*"
+    },
     "require-dev": {
         "laravel/pint": "^1.22"
     }

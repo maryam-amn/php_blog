@@ -28,7 +28,7 @@
 <div class="details-space">
     <div class="detail-post">
         <h4 class="text-paragraphe">Le jardinage</h4>
-        <a href="Detail_post.php"> <img src="image/login_img.jpg"> </a>
+        <a href="Detail_post.php"> <img src="style-image/login_img.jpg"> </a>
         <p>
             <mark>Description :</mark>
         </p>
