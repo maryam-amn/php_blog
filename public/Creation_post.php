@@ -92,10 +92,11 @@ if (! empty($_SESSION['succes'])) {
     <form method="post" enctype="multipart/form-data">
 
         <label for="title" id="title">Post Title</label>
-        <input type="text" placeholder="Enter post title" class="input" id="title" name="title">
         <?php if (! empty($errors['post_title'])) { ?>
             <p class="errors_message"><?= $errors['post_title'] ?></p>
         <?php } ?>
+        <input type="text" placeholder="Enter post title" class="input" id="title" name="title">
+
         <label for="image" id="image"> Image </label>
 
         <div class="image">
@@ -106,10 +107,11 @@ if (! empty($_SESSION['succes'])) {
         </div>
 
         <label for="content" id="content">Post content</label>
-        <textarea placeholder="Enter you content " id="content" name="content"></textarea>
         <?php if (! empty($errors['post_content'])) { ?>
             <p class="errors_message"><?= $errors['post_content'] ?></p>
         <?php } ?>
+        <textarea placeholder="Enter you content " id="content" name="content"></textarea>
+
         <button>Post the blog</button>
     </form>
 
