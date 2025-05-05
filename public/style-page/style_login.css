@@ -31,7 +31,7 @@ font-family: "Comfortaa SemiBold" ;
 form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
     padding: 20px;
     border-radius: 10px;
@@ -48,7 +48,11 @@ button {
 }
 
 label {
-    color: #0e0d0d;
+    color: #120a0a;
+    font-family: "Cantarell  Bold";
+    text-align: left;
+    font-size: 15px;
+
 }
 
 .header-to {
@@ -63,10 +67,16 @@ style-sapace {
     padding-right: 200px;
     height: 10px;
 }
+input[type="text"], input[type="password"]{
+    width: 100%;
+    margin-top: 5px;
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 
-input type {
-    width: 40%;
 }
+
 
 .t {
     display: flex;

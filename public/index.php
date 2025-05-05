@@ -1,3 +1,16 @@
+<?php
+session_start();
+$db = 'sqlite:../Database.db';
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
+$pdo = new PDO($db, '', '', $options);
+
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,10 +31,25 @@
         <a href="Edition_post.php">Edit a post</a>
         <a href="Detail_post.php"> View the details of a post</a>
     </div>
-    <div class="register-header">
-        <a href="Login.php">Login</a>
-        <a href="Register.php">Get started</a>
-    </div>
+    <?php if (! isset($_SESSION['id_user'])) { ?>
+        <a href="Register.php">
+            <button class="btn">Sign Up</button>
+        </a>
+        <a href="Login.php">
+            <button class="btn">Log in</button>
+        </a>
+    <?php } else { ?>
+            <div class="space-btn">
+                <a href="Logout.php">
+                    <button class="btn">Log Out</button>
+                </a>
+                <a href="edit-user-profile.php?id=">
+                    <button class="btn">Edit profile</button>
+                </a>
+            </div>
+
+    <?php } ?>
+
 </div>
 
 <div class="space">
@@ -35,7 +63,9 @@
             déplacer dans l’eau,
             se détendre et entretenir sa santé.
         </p>
-        <a href="Detail_post.php"><button> See more</button></a>
+        <a href="Detail_post.php">
+            <button> See more</button>
+        </a>
         <br>
     </div>
 
@@ -47,14 +77,16 @@
             l’ennui.
             Sur le terrain, chaque passe compte, chaque tir peut faire basculer le match.
         </p>
-        <a href="Detail_post.php"><button> See more</button></a>
+        <a href="Detail_post.php">
+            <button> See more</button>
+        </a>
         <br>
     </div>
 
     <div class="font-post-homepage">
         <h4 class="text-paragraphe">Le jardinage</h4>
         <a href="Detail_post.php"> <img src="style-image/login_img.jpg"> </a>
-        <p  class="text-paragraphe">Le jardinage, c’est un retour à l’essentiel. Chaque graine plantée, chaque fleur qui
+        <p class="text-paragraphe">Le jardinage, c’est un retour à l’essentiel. Chaque graine plantée, chaque fleur qui
             éclot
             est un petit miracle de la nature. Prendre soin d’un jardin, c’est prendre soin .
         </p>

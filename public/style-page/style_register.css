@@ -45,8 +45,10 @@ button {
 }
 
 label {
-    color: #0e0d0d;
-}
+    color: #120a0a;
+    font-family: "Cantarell  Bold";
+    text-align: left;
+    font-size: 15px;}
 
 .header-to {
     display: flex;

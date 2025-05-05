@@ -5,6 +5,7 @@
     text-align: center;
     padding: 10px;
     box-shadow: 0px 8px 20px 5px #00000014;
+
 }
 
 body {
@@ -161,6 +162,17 @@ button:hover {
 
 }
 
+.errors_message_login{
+    font-size: 14px;
+    max-width: 225px;
+    color: #ffffff;
+    font-style: normal;
+    background-color: #850909;
+    padding: 10px;
+    font-family: "Cantarell  Bold";
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 img {
     width: 300px;
     height: 200px;
@@ -259,9 +271,20 @@ mark {
 }
 
 
+.btn {
+    margin-top: 0px;
+    padding: 10px 20px;
+    background-color: #a5a8e5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
 
-
-
+space-btn{
+    display: flex;
+    gap: 50px;
+}
 
 
