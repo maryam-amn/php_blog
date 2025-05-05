@@ -1,3 +1,58 @@
+<?php
+session_start();
+require_once 'picture_upload.php';
+$post_title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
+$post_content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+$post_image = $_FILES['images'];
+$errors = [];
+
+$dbs = 'sqlite:../Database.db';
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (empty($post_title)) {
+        $errors['post_title'] = '* The title of the post is required';
+    } elseif (empty($post_content)) {
+        $errors['post_content'] = '* The content is required';
+    } elseif ($post_image['error'] > 0) {
+        $errors['post_image'] = '* The image is required';
+    } else {
+        $upload_result = uploadPicture($post_image);
+        if (isset($upload_result['error'])) {
+            $errors['post_image'] = $upload_result['error'];
+        } else {
+            $image_path = $upload_result['path'];
+            try {
+
+                $pdo = new PDO($dbs, '', '', $options);
+                $query = $pdo->prepare('INSERT INTO blog (title, image, content, created_at,user_id) VALUES (:title, :image, :content, :created_at, :user_id)');
+                $query->execute([
+                    'title' => $post_title,
+                    'image' => $image_path,
+                    'content' => $post_content,
+                    'created_at' => date_create()->format('Y-m-d H:i:s'),
+                    'user_id' => 1]);
+                $_SESSION['succes'] = 'The blog has been created successfully';
+
+                header('Location: Creation_post.php');
+
+                exit();
+
+            } catch (PDOException $e) {
+                $errors[] = 'Database errors : '.$e->getMessage();
+            }
+        }
+
+    }
+}
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,19 +79,37 @@
         <a href="Register.php">Get started</a>
     </div>
 </div>
-<div class="space-between-header-post"></div>
+<div class="space-between-header-post"><?php
+
+if (! empty($_SESSION['succes'])) {
+    echo '<p class="sucess_message">'.$_SESSION['succes'].'</p>';
+    unset($_SESSION['succes']);
+} ?></div>
+
 <section class="content">
     <h4>Create a blog</h4>
     <p> Write the content of your new blog here </p>
-    <form>
-        <label>Post Title</label>
-        <input type="text" placeholder="Enter post title" class="input">
-        <label> Description</label>
-        <input type="text" placeholder="Enter a description" class="input">
-        <label> Image </label>
-        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"/>
-        <label>Post content</label>
-        <textarea placeholder="Enter you content "></textarea>
+    <form method="post" enctype="multipart/form-data">
+
+        <label for="title" id="title">Post Title</label>
+        <input type="text" placeholder="Enter post title" class="input" id="title" name="title">
+        <?php if (! empty($errors['post_title'])) { ?>
+            <p class="errors_message"><?= $errors['post_title'] ?></p>
+        <?php } ?>
+        <label for="image" id="image"> Image </label>
+
+        <div class="image">
+            <input type="file" accept="image/png, image/jpeg" id="image" name="images"/>
+            <?php if (! empty($errors['post_image'])) { ?>
+                <p class="errors_message"><?= $errors['post_image'] ?></p>
+            <?php } ?>
+        </div>
+
+        <label for="content" id="content">Post content</label>
+        <textarea placeholder="Enter you content " id="content" name="content"></textarea>
+        <?php if (! empty($errors['post_content'])) { ?>
+            <p class="errors_message"><?= $errors['post_content'] ?></p>
+        <?php } ?>
         <button>Post the blog</button>
     </form>
 
