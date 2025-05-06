@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,22 +17,33 @@
 <div class="header">
     <div class="space-between">
     </div>
-    <div class="page-ref">
-        <a href="index.php">Home </a>
-        <a href="Creation_post.php">Create a blog</a>
-        <a href="Edition_post.php">Edit a post</a>
-        <a href="Detail_post.php"> View the details of a post</a>
-    </div>
-    <div class="register-header">
-        <a href="Login.php">Login</a>
-        <a href="Register.php">Get started</a>
-    </div>
+    <?php if (!isset($_SESSION['id_user']))  :
+        header('Location: Login.php');
+        ?>
+    <?php else : ?>
+        <div class="page-ref">
+            <a href="index.php">Home </a>
+            <a href="Creation_post.php">Create a post</a>
+            <a href="Edition_post.php">Edit a post</a>
+            <a href="Detail_post.php"> View the details of a post</a>
+        </div>
+        <div class="space-btn">
+            <a href="Logout.php">
+                <button class="btn">Log Out</button>
+            </a>
+            <a href="edit-user-profile.php?id=">
+                <button class="btn">Edit profile</button>
+            </a>
+        </div>
+
+    <?php endif ?>
+
 </div>
 <div class="space-between-header-post"></div>
 <section class="content">
     <h4>Edit a blog</h4>
     <p> Write the new content of your blog here </p>
-    <form>
+    <form method="post">
         <label>Post Title</label>
         <input type="text" placeholder="Enter post title" class="input">
         <label>Post number</label>
@@ -37,8 +52,12 @@
         <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"/>
         <label>Post content</label>
         <textarea placeholder="Enter you content "></textarea>
-        <button>Post the blog</button>
-
+        <?php if (!isset($_SESSION['id_user'])) : ?>
+            <a href="Login.php">
+                <button> Post the blog</button>
+            </a>        <?php else : ?>
+            <button>Post the blog</button>
+        <?php endif ?>
     </form>
 
 </section>
