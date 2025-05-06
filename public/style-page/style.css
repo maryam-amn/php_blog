@@ -3,6 +3,7 @@
 .header {
     display: flex;
     text-align: center;
+    height: 36px;
     padding: 10px;
     box-shadow: 0px 8px 20px 5px #00000014;
 
@@ -36,6 +37,13 @@ a:hover {
     display: flex;
     gap: 50px;
     padding-right: 350px;
+    color: transparent;
+}
+.homepage-ref {
+    display: flex;
+    gap: 50px;
+    padding-right: 830px;
+    color: transparent;
 }
 
 p {
@@ -299,9 +307,8 @@ mark {
 }
 
 
-space-btn{
+.space-btn{
     display: flex;
-    gap: 50px;
+    gap: 10px;
 }
-
 

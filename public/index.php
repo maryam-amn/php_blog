@@ -25,31 +25,36 @@ $pdo = new PDO($db, '', '', $options);
 <div class="header">
     <div class="space-between">
     </div>
-    <div class="page-ref">
-        <a href="index.php">Home </a>
-        <a href="Creation_post.php">Create a post</a>
-        <a href="Edition_post.php">Edit a post</a>
-        <a href="Detail_post.php"> View the details of a post</a>
-    </div>
-    <?php if (! isset($_SESSION['id_user'])) { ?>
-        <a href="Register.php">
-            <button class="btn">Sign Up</button>
-        </a>
-        <a href="Login.php">
-            <button class="btn">Log in</button>
-        </a>
+    <?php if (!isset($_SESSION['id_user'])) : ?>
+        <div class="homepage-ref">
+            <a href="index.php">Home </a>
+        </div>
+        <div class="space-btn">
+            <a href="Register.php">
+                <button class="btn">Register</button>
+            </a>
+            <a href="Login.php">
+                <button class="btn">Log in</button>
+            </a>
+        </div>
 
-    <?php } else { ?>
-            <div class="space-btn">
-                <a href="Logout.php">
-                    <button class="btn">Log Out</button>
-                </a>
-                <a href="edit-user-profile.php?id=">
-                    <button class="btn">Edit profile</button>
-                </a>
-            </div>
+    <?php else : ?>
+        <div class="page-ref">
+            <a href="index.php">Home </a>
+            <a href="Creation_post.php">Create a post</a>
+            <a href="Edition_post.php">Edit a post</a>
+            <a href="Detail_post.php"> View the details of a post</a>
+        </div>
+        <div class="space-btn">
+            <a href="Logout.php">
+                <button class="btn">Log Out</button>
+            </a>
+            <a href="edit-user-profile.php?id=">
+                <button class="btn">Edit profile</button>
+            </a>
+        </div>
 
-    <?php } ?>
+    <?php endif ?>
 
 </div>
 

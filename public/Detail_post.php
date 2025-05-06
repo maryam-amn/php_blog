@@ -1,3 +1,4 @@
+<?php session_start()?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,16 +14,29 @@
 <div class="header">
     <div class="space-between">
     </div>
-    <div class="page-ref">
-        <a href="index.php">Home </a>
-        <a href="Creation_post.php">Create a post</a>
-        <a href="Edition_post.php">Edit a post</a>
-        <a href="Detail_post.php"> View the details of a post</a>
-    </div>
-    <div class="register-header">
-        <a href="Login.php">Login</a>
-        <a href="Register.php">Get started</a>
-    </div>
+    <?php if (!isset($_SESSION['id_user']))  :
+        header('Location: Login.php');
+        ?>
+
+
+    <?php else : ?>
+        <div class="page-ref">
+            <a href="index.php">Home </a>
+            <a href="Creation_post.php">Create a post</a>
+            <a href="Edition_post.php">Edit a post</a>
+            <a href="Detail_post.php"> View the details of a post</a>
+        </div>
+        <div class="space-btn">
+            <a href="Logout.php">
+                <button class="btn">Log Out</button>
+            </a>
+            <a href="edit-user-profile.php?id=">
+                <button class="btn">Edit profile</button>
+            </a>
+        </div>
+
+    <?php endif ?>
+
 </div>
 <div class="space-between-header-post"></div>
 <div class="details-space">
@@ -35,6 +49,12 @@
             est un petit miracle de la nature. Prendre soin d’un jardin, c’est prendre soin de soi.
         </p>
         <br>
+        <?php if ( ! isset($_SESSION['id_user'])):?>
+            <a href="Edition_post.php">
+                <button>Edt</button>
+            </a>
+        <?php else  :?>
+        <?php endif ?>
         <a href="Edition_post.php">
             <button>Edit</button>
         </a>
