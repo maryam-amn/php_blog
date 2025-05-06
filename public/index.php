@@ -8,6 +8,11 @@ $options = [
 ];
 $pdo = new PDO($db, '', '', $options);
 
+$query = $pdo->prepare('SELECT * FROM blog ORDER BY created_at DESC');
+
+$query->execute();
+$results = $query->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 
@@ -25,7 +30,7 @@ $pdo = new PDO($db, '', '', $options);
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user'])) : ?>
+    <?php if (!isset($_SESSION['id_user'])) { ?>
         <div class="homepage-ref">
             <a href="index.php">Home </a>
         </div>
@@ -38,7 +43,7 @@ $pdo = new PDO($db, '', '', $options);
             </a>
         </div>
 
-    <?php else : ?>
+    <?php } else { ?>
         <div class="page-ref">
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
@@ -54,99 +59,41 @@ $pdo = new PDO($db, '', '', $options);
             </a>
         </div>
 
-    <?php endif ?>
+    <?php } ?>
 
 </div>
 
 <div class="space">
 </div>
 
-<div class="homepage">
+
+<?php $i = 0; ?>
+<?php foreach ($results as $row) : ?>
+
+    <?php if ($i % 3 == 0) echo '<div class="homepage">'; ?>
 
     <div class="font-post-homepage">
-        <h4>La natation</h4>
-        <img src="style-image/image_home.jpg">
-        <p class="text-paragraphe">La nage est une activité physique pratiquée depuis l’Antiquité, à la fois pour se
-            déplacer dans l’eau,
-            se détendre et entretenir sa santé.
-        </p>
-        <a href="Detail_post.php">
-            <button> See more</button>
+        <h4><?= htmlspecialchars($row['title']) ?></h4>
+        <a href="Detail_post.php?id=<?= $row['id_blog'] ?>">
+            <img src="<?= $row['image'] ?>">
         </a>
-        <br>
+        <p><?= $row['content'] ?></p>
+
+        <div class="text">
+            <a href="Detail_post.php?id=<?= $row['id_blog'] ?>">
+                <button>See more</button>
+            </a>
+            <p id="text-p"><?= $row['created_at'] ?></p>
+        </div>
     </div>
 
-    <div class="font-post-homepage">
-        <h4>Le basketball</h4>
-        <img src="style-image/img_post.jpg">
+    <?php $i++; ?>
+    <?php if ($i % 3 == 0) echo '</div>'; ?>
 
-        <p class="text-paragraphe">Rapidité, précision, esprit d’équipe : le basketball ne laisse pas de place à
-            l’ennui.
-            Sur le terrain, chaque passe compte, chaque tir peut faire basculer le match.
-        </p>
-        <a href="Detail_post.php">
-            <button> See more</button>
-        </a>
-        <br>
-    </div>
+<?php endforeach; ?>
 
-    <div class="font-post-homepage">
-        <h4 class="text-paragraphe">Le jardinage</h4>
-        <a href="Detail_post.php"> <img src="style-image/login_img.jpg"> </a>
-        <p class="text-paragraphe">Le jardinage, c’est un retour à l’essentiel. Chaque graine plantée, chaque fleur qui
-            éclot
-            est un petit miracle de la nature. Prendre soin d’un jardin, c’est prendre soin .
-        </p>
-        <a href="Detail_post.php">
-            <button> See more</button>
-        </a>
-        <br>
-    </div>
+<?php if ($i % 3 != 0) echo '</div>'; ?>
 
-</div>
 
-<div class="homepage">
-
-    <div class="font-post-homepage">
-        <h4>La natation</h4>
-        <img src="style-image/image_home.jpg">
-        <p class="text-paragraphe">La nage est une activité physique pratiquée depuis l’Antiquité, à la fois pour se
-            déplacer dans l’eau,
-            se détendre et entretenir sa santé.
-        </p>
-        <a href="Detail_post.php">
-            <button> See more</button>
-        </a>
-        <br>
-    </div>
-
-    <div class="font-post-homepage">
-        <h4>Le basketball</h4>
-        <img src="style-image/img_post.jpg">
-
-        <p class="text-paragraphe">Rapidité, précision, esprit d’équipe : le basketball ne laisse pas de place à
-            l’ennui.
-            Sur le terrain, chaque passe compte, chaque tir peut faire basculer le match.
-        </p>
-        <a href="Detail_post.php">
-            <button> See more</button>
-        </a>
-        <br>
-    </div>
-
-    <div class="font-post-homepage">
-        <h4 class="text-paragraphe">Le jardinage</h4>
-        <a href="Detail_post.php"> <img src="style-image/login_img.jpg"> </a>
-        <p class="text-paragraphe">Le jardinage, c’est un retour à l’essentiel. Chaque graine plantée, chaque fleur qui
-            éclot
-            est un petit miracle de la nature. Prendre soin d’un jardin, c’est prendre soin .
-        </p>
-        <a href="Detail_post.php">
-            <button> See more</button>
-        </a>
-        <br>
-    </div>
-
-</div>
 </body>
 </html>
