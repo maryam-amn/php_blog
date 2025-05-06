@@ -39,6 +39,7 @@ a:hover {
     padding-right: 350px;
     color: transparent;
 }
+
 .homepage-ref {
     display: flex;
     gap: 50px;
@@ -47,11 +48,34 @@ a:hover {
 }
 
 p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* ✅ Limite à 2 lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     margin: 0px;
-    text-decoration: none;
     text-align: center;
+    text-decoration: none;
 }
 
+.text {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding-left: 80px;
+
+}
+
+.text button {
+    text-align: right;
+}
+
+#text-p {
+    text-align: right;
+    width: 80px;
+    height: 20px;
+}
 
 /* Page - Create a post */
 .content {
@@ -172,7 +196,7 @@ button:hover {
 
 }
 
-.errors_message_login{
+.errors_message_login {
     font-size: 14px;
     max-width: 225px;
     color: #ffffff;
@@ -183,6 +207,7 @@ button:hover {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 img {
     width: 300px;
     height: 200px;
@@ -237,13 +262,15 @@ img {
     align-items: center;
     text-align: center;
 }
-.detail-post h4{
+
+.detail-post h4 {
     text-align: center;
     padding: 10px;
     width: 100%;
     font-family: "Cantarell Thin";
     font-size: 25px;
 }
+
 .detail-post p {
     background-color: #cab3df;
     border-radius: 5px;
@@ -253,6 +280,7 @@ img {
 
     text-align: justify;
 }
+
 .details-space {
     display: flex;
     padding: 30px;
@@ -307,7 +335,7 @@ mark {
 }
 
 
-.space-btn{
+.space-btn {
     display: flex;
     gap: 10px;
 }
