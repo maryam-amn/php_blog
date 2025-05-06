@@ -132,6 +132,8 @@ button:hover {
     gap: 40px;
 }
 
+
+
 .font-post-homepage {
     background-color: #d8cbe6;
     width: 400px;
@@ -191,8 +193,8 @@ img {
 }
 
 .space {
-    width: 300px;
-    height: 200px;
+    width: 100%;
+    height: 100px;
 }
 
 .font-post-homepage button {
@@ -227,7 +229,22 @@ img {
     align-items: center;
     text-align: center;
 }
+.detail-post h4{
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    font-family: "Cantarell Thin";
+    font-size: 25px;
+}
+.detail-post p {
+    background-color: #cab3df;
+    border-radius: 5px;
+    width: 80%;
+    padding: 10px;
+    margin-left: 80px;
 
+    text-align: justify;
+}
 .details-space {
     display: flex;
     padding: 30px;

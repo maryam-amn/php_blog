@@ -92,3 +92,20 @@ input[type="text"], input[type="password"]{
 }
 
 
+.btn {
+    width: 100%;
+
+    margin-top: 0px;
+    padding: 10px 20px;
+    background-color: #a5a8e5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+space-btn{
+    display: flex;
+    gap: 50px;
+}

@@ -51,10 +51,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="Edition_post.php">Edit a post</a>
         <a href="Detail_post.php"> View the details of a post</a>
     </div>
-    <div class="register-header">
-        <a href="Login.php">Login</a>
-        <a href="Register.php">Get started</a>
-    </div>
+    <?php if (! isset($_SESSION['id_user'])) { ?>
+        <a href="Register.php">
+            <button class="btn">Sign Up</button>
+        </a>
+        <a href="Login.php">
+            <button class="btn">Log in</button>
+        </a>
+
+    <?php } else { ?>
+        <div class="space-btn">
+            <a href="Logout.php">
+                <button class="btn">Log Out</button>
+            </a>
+            <a href="edit-user-profile.php?id=">
+                <button class="btn">Edit profile</button>
+            </a>
+        </div>
+
+    <?php } ?>
 </div>
 <style>
     <?php include 'style-page/style_login.css'; ?>
