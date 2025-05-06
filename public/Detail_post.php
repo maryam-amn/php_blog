@@ -29,9 +29,7 @@
     <div class="detail-post">
         <h4 class="text-paragraphe">Le jardinage</h4>
         <a href="Detail_post.php"> <img src="style-image/login_img.jpg"> </a>
-        <p>
-            <mark>Description :</mark>
-        </p>
+
         <p class="text-paragraphe"> Le jardinage, c’est un retour à l’essentiel. Chaque graine plantée, chaque fleur qui
             éclot
             est un petit miracle de la nature. Prendre soin d’un jardin, c’est prendre soin de soi.
