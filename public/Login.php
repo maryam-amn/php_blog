@@ -45,10 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user'])) : ?>
 
-
-    <?php else : ?>
+    <?php if (isset($_SESSION['id_user'])) { ?>
         <div class="page-ref">
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
@@ -64,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </a>
         </div>
 
-    <?php endif ?>
+    <?php } ?>
 
 </div>
 <style>

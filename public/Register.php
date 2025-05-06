@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (empty($password)) {
         $errors['password'] = 'Password is required';
     } elseif (strlen(trim($password)) < 6) {
-        $errors['password'] = 'Password is too short';
+        $errors['password'] = 'Password is too short, enter a least 6 characters';
     } elseif (empty($confirm_password)) {
         $errors['confirm_password'] = 'Confirm password ';
     } elseif ($password !== $confirm_password) {
