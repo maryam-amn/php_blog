@@ -47,7 +47,7 @@ a:hover {
     color: transparent;
 }
 
-p {
+#content-homepage {
     display: -webkit-box;
     -webkit-line-clamp: 3; /* ✅ Limite à 2 lignes */
     -webkit-box-orient: vertical;
@@ -75,6 +75,15 @@ p {
     text-align: right;
     width: 80px;
     height: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* ✅ Limite à 2 lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    margin: 0px;
+    text-align: center;
+    text-decoration: none;
 }
 
 /* Page - Create a post */
@@ -165,7 +174,6 @@ button:hover {
 }
 
 
-
 .font-post-homepage {
     background-color: #d8cbe6;
     width: 400px;
@@ -215,15 +223,16 @@ img {
     border-radius: 20px;
 }
 
-.text-paragraphe {
-    text-align: center;
-    font-family: Madan2;
-    width: 45ch;
-    overflow: hidden;
-    white-space: normal;
-    text-overflow: ellipsis;
 
+#text-blog {
+    text-align: justify-all;
+    font-family: Madan2;
+    background-color: #cab3df;
+
+border-radius:15px;
+    padding: 10px;
 }
+
 
 .space {
     width: 100%;
@@ -334,9 +343,128 @@ mark {
     cursor: pointer;
 }
 
+#date-blog {
+    width: 25%;
+    text-align: justify-all;
+    font-family: Madan2;
+    background-color: transparent;
+
+}
+
+#button-blog {
+    margin-bottom: 25px;
+    margin-top: 0px;
+}
 
 .space-btn {
     display: flex;
     gap: 10px;
 }
+
+.page-details {
+    background-color: #ded4df;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    gap: 50px;
+    border-radius: 30px;
+
+}
+
+.page-details-style {
+    background-color: #5a1010;
+    border-radius: 30px;
+    display: flex;
+}
+
+#page-details-content {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 80px;
+    max-width: 360px;
+    text-align: left;
+    line-height: 1.4em;
+    height: 70px;
+    word-break: break-word;;
+}
+
+#item-detail-page {
+    width: 410px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+}
+
+.page-details-style p {
+    margin-left: 30px;
+    background-color: transparent;
+
+}
+
+#text-details-page {
+    font-family: "Cantarell Extra Bold";
+    font-size: 20px;
+    margin-bottom: 5px;
+    margin-left: 30px;
+}
+
+.page-details-style img {
+    margin-left: 35px;
+    background-color: transparent;
+}
+
+.detail-post-page {
+    background-color: transparent;
+    width: 800px;
+    padding: 5px;
+    border-radius: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+.error-container {
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.details-error {
+    width: 600px;
+    height: 300px;
+    background-color: #5a1010;
+    border: 1px solid #b00020;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 30px;
+    margin: 110px;
+}
+
+.errors_message-details {
+    color: #b00020;
+    font-size: 20px;
+}
+
+.detail-post-transparent {
+    background-color: blue; /* ✅ Fond transparent */
+    width: 800px;
+    padding: 5px;
+    border-radius: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+
 
