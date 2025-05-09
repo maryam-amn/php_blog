@@ -47,7 +47,6 @@ $results = $query->fetchAll();
         <div class="page-ref">
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
-            <a href="Edition_post.php">Edit a post</a>
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">

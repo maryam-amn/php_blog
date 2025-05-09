@@ -68,15 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user']))  :
+    <?php if (!isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         ?>
 
-    <?php else : ?>
+    <?php } else { ?>
         <div class="page-ref">
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
-            <a href="Edition_post.php">Edit a post</a>
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">
@@ -88,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </a>
         </div>
 
-    <?php endif ?>
+    <?php } ?>
 
 </div>
 <div class="space-between-header-post"><?php
@@ -123,15 +122,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="errors_message"><?= $errors['post_content'] ?></p>
         <?php } ?>
         <textarea placeholder="Enter you content " id="content" name="content"></textarea>
-        <?php if (!isset($_SESSION['id_user'])) : ?>
+        <?php if (!isset($_SESSION['id_user'])) { ?>
             <a href="Login.php">
                 <button type="submit" disabled> Post this blog</button>
             </a>
-        <?php else : ?>
+        <?php } else { ?>
 
             <button>Post the blog</button>
 
-        <?php endif ?>
+        <?php } ?>
     </form>
 
 </section>

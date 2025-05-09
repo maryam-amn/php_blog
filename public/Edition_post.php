@@ -1,5 +1,50 @@
 <?php
+require_once 'picture_upload.php';
 session_start();
+
+$db = 'sqlite:../Database.db';
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
+$pdo = new PDO($db, '', '', $options);
+// View
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+$query = $pdo->prepare('SELECT * FROM blog WHERE id_blog = :id');
+
+$query->execute(['id' => $id]);
+$results = $query->fetchAll();
+
+$post_title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
+$post_content = filter_input(INPUT_POST, 'textarea', FILTER_SANITIZE_SPECIAL_CHARS);
+// UPDATE
+$post_image = $_FILES['avatar'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $image_path = '';
+        if (!empty($post_image['name'])) {
+            $upload_result = uploadPicture($post_image);
+
+            $image_path = $upload_result['path'];
+        } else {
+            $image_path = $results[0]['image'];
+        }
+
+        $query_to = $pdo->prepare('UPDATE blog SET content = :content, title = :title, image = :image WHERE id_blog = :id');
+        $query_to->execute([
+            'content' => $post_content,
+            'title' => $post_title,
+            'image' => $image_path,
+            'id' => $id,
+        ]);
+        header('Location: Detail_post.php?id=' . $id . '');
+        exit;
+
+    } catch (Exception $e) {
+        $_SESSION['error'] = $e->getMessage();
+    }
+}
 ?>
 
 <!doctype html>
@@ -17,14 +62,13 @@ session_start();
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user']))  :
+    <?php if (!isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         ?>
-    <?php else : ?>
+    <?php } else { ?>
         <div class="page-ref">
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
-            <a href="Edition_post.php">Edit a post</a>
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">
@@ -36,31 +80,50 @@ session_start();
             </a>
         </div>
 
-    <?php endif ?>
+    <?php } ?>
 
 </div>
 <div class="space-between-header-post"></div>
-<section class="content">
-    <h4>Edit a blog</h4>
-    <p> Write the new content of your blog here </p>
-    <form method="post">
-        <label>Post Title</label>
-        <input type="text" placeholder="Enter post title" class="input">
-        <label>Post number</label>
-        <input type="number" placeholder="Enter post number" class="input">
-        <label> Image </label>
-        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg"/>
-        <label>Post content</label>
-        <textarea placeholder="Enter you content "></textarea>
-        <?php if (!isset($_SESSION['id_user'])) : ?>
-            <a href="Login.php">
-                <button> Post the blog</button>
-            </a>        <?php else : ?>
-            <button>Post the blog</button>
-        <?php endif ?>
-    </form>
+<?php if ($results) { ?>
 
-</section>
+    <?php foreach ($results as $row) { ?>
+
+        <section class="content">
+
+            <h4>Edit a blog</h4>
+            <p> Write the new content of your blog here </p>
+            <form method="post" enctype="multipart/form-data">
+
+                <label for="title">Post Title</label>
+                <input name="title" id="title" type="text" placeholder="Enter post title" class="input"
+                       value="<?= htmlspecialchars($row['title']) ?>">
+                <label> Image </label>
+                <a href="style-image/image_post_ex.jpg"></a>
+                <img id="edit-img" src="<?= htmlspecialchars($row['image']) ?>" alt="Current Image" width="200"
+                     height="200">
+
+                <input name="avatar" type="file" id="avatar" value="style-image/image_post_ex.jpg"
+                       accept="image/png, image/jpeg">
+                <label for="textarea">Post content</label>
+                <textarea name="textarea" id="textarea"
+                          placeholder="Enter you content "><?= $row['content'] ?> </textarea>
+                <a href="Detail_post.php?id=<?= $row['id_blog'] ?>">
+                    <button type="submit"> Post the bog</button>
+                </a>
+            </form>
+        </section>
+    <?php } ?>
+
+<?php } else { ?>
+    <section class="content not-found">
+        <h4>Post not found</h4>
+        <p>The blog post you're trying to edit doesn't exist.</p>
+        <a href="index.php">
+            <button>Back to home</button>
+        </a>
+    </section>
+<?php } ?>
+
 
 </body>
 </html>
