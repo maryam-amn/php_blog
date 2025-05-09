@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'user_id' => 1]);
                 $_SESSION['succes'] = 'The blog has been created successfully';
 
-                header('Location: Creation_post.php');
+                header('Location: index.php');
 
                 exit();
 
@@ -86,54 +86,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button class="btn">Edit profile</button>
             </a>
         </div>
-
     <?php } ?>
 
 </div>
-<div class="space-between-header-post"><?php
+<div class="space-between-header-post">
 
-    if (!empty($_SESSION['succes'])) {
-        echo '<p class="sucess_message">' . $_SESSION['succes'] . '</p>';
-        unset($_SESSION['succes']);
-    } ?></div>
 
-<section class="content">
-    <h4>Create a blog</h4>
-    <p> Write the content of your new blog here </p>
-    <form method="post" enctype="multipart/form-data">
+    <section class="content">
+        <h4>Create a blog</h4>
+        <p> Write the content of your new blog here </p>
+        <form method="post" enctype="multipart/form-data">
 
-        <label for="title" id="title">Post Title</label>
-        <?php if (!empty($errors['post_title'])) { ?>
-            <p class="errors_message"><?= $errors['post_title'] ?></p>
-        <?php } ?>
-        <input type="text" placeholder="Enter post title" class="input" id="title" name="title">
-
-        <label for="image" id="image"> Image </label>
-
-        <div class="image">
-            <input type="file" accept="image/png, image/jpeg" id="image" name="images"/>
-            <?php if (!empty($errors['post_image'])) { ?>
-                <p class="errors_message"><?= $errors['post_image'] ?></p>
+            <label for="title" id="title">Post Title</label>
+            <?php if (!empty($errors['post_title'])) { ?>
+                <p class="errors_message"><?= $errors['post_title'] ?></p>
             <?php } ?>
-        </div>
+            <input type="text" placeholder="Enter post title" class="input" id="title" name="title">
 
-        <label for="content" id="content">Post content</label>
-        <?php if (!empty($errors['post_content'])) { ?>
-            <p class="errors_message"><?= $errors['post_content'] ?></p>
-        <?php } ?>
-        <textarea placeholder="Enter you content " id="content" name="content"></textarea>
-        <?php if (!isset($_SESSION['id_user'])) { ?>
-            <a href="Login.php">
-                <button type="submit" disabled> Post this blog</button>
-            </a>
-        <?php } else { ?>
+            <label for="image" id="image"> Image </label>
 
-            <button>Post the blog</button>
+            <div class="image">
+                <input type="file" accept="image/png, image/jpeg" id="image" name="images"/>
+                <?php if (!empty($errors['post_image'])) { ?>
+                    <p class="errors_message"><?= $errors['post_image'] ?></p>
+                <?php } ?>
+            </div>
 
-        <?php } ?>
-    </form>
+            <label for="content" id="content">Post content</label>
+            <?php if (!empty($errors['post_content'])) { ?>
+                <p class="errors_message"><?= $errors['post_content'] ?></p>
+            <?php } ?>
+            <textarea placeholder="Enter you content " id="content" name="content"></textarea>
+            <?php if (!isset($_SESSION['id_user'])) { ?>
+                <a href="Login.php">
+                    <button type="submit" disabled> Post this blog</button>
+                </a>
+            <?php } else { ?>
 
-</section>
+                <button>Post the blog</button>
+
+            <?php } ?>
+        </form>
+
+    </section>
 
 </body>
 </html>

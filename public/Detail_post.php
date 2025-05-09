@@ -33,7 +33,7 @@ $results_rows = $query_to->fetchAll();
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user'])) {
+    <?php if (! isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         exit();
         ?>
@@ -53,12 +53,17 @@ $results_rows = $query_to->fetchAll();
         </div>
     <?php } ?>
 </div>
-<div class="space-between-header-post"></div>
+<div class="space-between-header-post"></div> <?php
+if (isset($_SESSION['succes'])) {
+    echo '<p class="sucess_message">'.$_SESSION['succes'].'</p>';
+    unset($_SESSION['succes']);
+}
+?>
 <div class="details-space">
-    <div id="detail-post-page-tt">    <?php if ($results) { ?>
-        <?php foreach ($results
 
-        as $row) { ?>
+
+    <div id="detail-post-page-tt">    <?php if ($results) { ?>
+        <?php foreach ($results as $row) { ?>
 
         <h4 class="text-paragraphe"><?= htmlspecialchars($row['title']) ?></h4>
         <a href="Detail_post.php?id=<?= $row['id_blog'] ?>">
@@ -81,9 +86,8 @@ $results_rows = $query_to->fetchAll();
 
     <div class="detail-post-t">
 
-        <div class="detail-post-page">            <?php foreach ($results_rows
-
-            as $row) { ?>
+        <div class="detail-post-page">
+            <?php foreach ($results_rows as $row) { ?>
 
             <div class="page-details">
                 <div class="page-details-style">
@@ -106,7 +110,7 @@ $results_rows = $query_to->fetchAll();
     </div>
     </div>
 <?php } ?>
-<?php if (!isset($_SESSION['id_user'])) { ?>
+<?php if (! isset($_SESSION['id_user'])) { ?>
 
     <div class="error-container">
         <div class="details-error">
