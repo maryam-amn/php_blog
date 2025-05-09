@@ -11,12 +11,12 @@ $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $query = $pdo->prepare('SELECT * FROM blog WHERE id_blog = :id');
 
 $query->execute(['id' => $id]);
-$results = $query->fetchAll(PDO::FETCH_ASSOC);
+$results = $query->fetchAll();
 
 $query_to = $pdo->prepare('SELECT * FROM blog ORDER BY created_at DESC');
 
 $query_to->execute();
-$results_rows = $query_to->fetchAll(PDO::FETCH_ASSOC);
+$results_rows = $query_to->fetchAll();
 ?>
 <!doctype html>
 <html lang="en">
