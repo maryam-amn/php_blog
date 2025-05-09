@@ -30,7 +30,7 @@ $results = $query->fetchAll();
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user'])) { ?>
+    <?php if (! isset($_SESSION['id_user'])) { ?>
         <div class="homepage-ref">
             <a href="index.php">Home </a>
         </div>
@@ -64,12 +64,19 @@ $results = $query->fetchAll();
 
 <div class="space">
 </div>
-
+<?php
+if (isset($_SESSION['succes'])) {
+    echo '<p class="sucess_message">'.$_SESSION['succes'].'</p>';
+    unset($_SESSION['succes']);
+}
+?>
 
 <?php $i = 0; ?>
-<?php foreach ($results as $row) : ?>
+<?php foreach ($results as $row) { ?>
 
-    <?php if ($i % 3 == 0) echo '<div class="homepage">'; ?>
+    <?php if ($i % 3 == 0) {
+        echo '<div class="homepage">';
+    } ?>
 
     <div class="font-post-homepage">
         <h4><?= htmlspecialchars($row['title']) ?></h4>
@@ -87,11 +94,15 @@ $results = $query->fetchAll();
     </div>
 
     <?php $i++; ?>
-    <?php if ($i % 3 == 0) echo '</div>'; ?>
+    <?php if ($i % 3 == 0) {
+        echo '</div>';
+    } ?>
 
-<?php endforeach; ?>
+<?php } ?>
 
-<?php if ($i % 3 != 0) echo '</div>'; ?>
+<?php if ($i % 3 != 0) {
+    echo '</div>';
+} ?>
 
 
 </body>

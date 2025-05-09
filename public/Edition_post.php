@@ -23,7 +23,7 @@ $post_image = $_FILES['avatar'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $image_path = '';
-        if (!empty($post_image['name'])) {
+        if (! empty($post_image['name'])) {
             $upload_result = uploadPicture($post_image);
 
             $image_path = $upload_result['path'];
@@ -37,8 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'title' => $post_title,
             'image' => $image_path,
             'id' => $id,
+
         ]);
-        header('Location: Detail_post.php?id=' . $id . '');
+        $_SESSION['succes'] = 'The blog has been edited successfully';
+
+        header('Location: Detail_post.php?id='.$id.'');
         exit;
 
     } catch (Exception $e) {
@@ -62,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user'])) {
+    <?php if (! isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         ?>
     <?php } else { ?>
