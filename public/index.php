@@ -75,9 +75,9 @@ $results = $query->fetchAll(PDO::FETCH_ASSOC);
     <div class="font-post-homepage">
         <h4><?= htmlspecialchars($row['title']) ?></h4>
         <a href="Detail_post.php?id=<?= $row['id_blog'] ?>">
-            <img src="<?= $row['image'] ?>">
+            <img src="<?= $row['image'] ?>" width="300" height="200">
         </a>
-        <p><?= $row['content'] ?></p>
+        <p id="content-homepage"><?= $row['content'] ?></p>
 
         <div class="text">
             <a href="Detail_post.php?id=<?= $row['id_blog'] ?>">
