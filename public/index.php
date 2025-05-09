@@ -11,7 +11,7 @@ $pdo = new PDO($db, '', '', $options);
 $query = $pdo->prepare('SELECT * FROM blog ORDER BY created_at DESC');
 
 $query->execute();
-$results = $query->fetchAll(PDO::FETCH_ASSOC);
+$results = $query->fetchAll();
 
 ?>
 
