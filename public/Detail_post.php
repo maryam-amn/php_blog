@@ -33,7 +33,7 @@ $results_rows = $query_to->fetchAll();
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (! isset($_SESSION['id_user'])) {
+    <?php if (!isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         exit();
         ?>
@@ -41,7 +41,6 @@ $results_rows = $query_to->fetchAll();
         <div class="page-ref">
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
-            <a href="Edition_post.php">Edit a post</a>
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">
@@ -56,15 +55,16 @@ $results_rows = $query_to->fetchAll();
 </div>
 <div class="space-between-header-post"></div>
 <div class="details-space">
-    <div class="detail-post-page">
+    <div id="detail-post-page-tt">    <?php if ($results) { ?>
+        <?php foreach ($results
 
-        <?php if ($results) { ?>
-        <?php foreach ($results as $row) { ?>
+        as $row) { ?>
 
         <h4 class="text-paragraphe"><?= htmlspecialchars($row['title']) ?></h4>
         <a href="Detail_post.php?id=<?= $row['id_blog'] ?>">
             <img src="<?= $row['image'] ?>" width="300" height="200" alt="Blog-img">
         </a>
+
         <p id="text-blog"> <?= $row['content'] ?>
         </p>
         <p id="date-blog">Published on <?= date('F j, Y', strtotime($row['created_at'])) ?></p>
@@ -76,13 +76,14 @@ $results_rows = $query_to->fetchAll();
 
 </div>
 <?php } ?>
-<?php } else { ?>
+<?php } else { ?> </div>
 
 
     <div class="detail-post-t">
 
-        <div class="detail-post-page">
-            <?php foreach ($results_rows as $row) { ?>
+        <div class="detail-post-page">            <?php foreach ($results_rows
+
+            as $row) { ?>
 
             <div class="page-details">
                 <div class="page-details-style">
@@ -103,8 +104,9 @@ $results_rows = $query_to->fetchAll();
             </div>
         </div>
     </div>
+    </div>
 <?php } ?>
-<?php if (! isset($_SESSION['id_user'])) { ?>
+<?php if (!isset($_SESSION['id_user'])) { ?>
 
     <div class="error-container">
         <div class="details-error">

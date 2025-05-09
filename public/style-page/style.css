@@ -38,6 +38,9 @@ a:hover {
     gap: 50px;
     padding-right: 350px;
     color: transparent;
+    justify-items: center;
+    width: 500px;
+    height: 36px;
 }
 
 .homepage-ref {
@@ -229,7 +232,7 @@ img {
     font-family: Madan2;
     background-color: #cab3df;
 
-border-radius:15px;
+    border-radius: 15px;
     padding: 10px;
 }
 
@@ -372,7 +375,7 @@ mark {
 }
 
 .page-details-style {
-    background-color: #5a1010;
+    background-color: rgba(202, 179, 223, 0.54);
     border-radius: 30px;
     display: flex;
 }
@@ -424,7 +427,29 @@ mark {
     border-radius: 20px;
     align-items: center;
     text-align: center;
+    margin-right: 600px;
 }
+
+#detail-post-page-tt {
+    background-color: #d8cbe6;
+    width: 800px;
+    padding: 5px;
+    border-radius: 20px;
+    justify-items: center;
+    align-items: flex-start;
+    text-align: center;
+}
+
+#detail-post-page-tt p {
+    width: 600px;
+
+}
+
+#detail-post-page-tt h4 {
+    font-size: 20px;
+    padding: 5px;
+}
+
 
 .error-container {
     height: 600px;
@@ -464,7 +489,33 @@ mark {
     text-align: center;
 }
 
+#edit-img {
+    margin-right: 190px;
+    margin-left: 0px;
+    padding-left: 0px;
+    border-left: 0px;
+}
 
+.not-found {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: rgba(202, 179, 223, 0.54);
+    border: 1px solid #5a1010;
+    border-radius: 8px;
+    color: #850909;
+    margin: 40px auto;
+    max-width: 600px;
+}
 
+.not-found h4 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #5a1010;
+}
+
+.not-found p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
 
 
