@@ -7,16 +7,22 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 $pdo = new PDO($db, '', '', $options);
+
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $query = $pdo->prepare('SELECT * FROM blog WHERE id_blog = :id');
-
 $query->execute(['id' => $id]);
 $results = $query->fetchAll();
 
 $query_to = $pdo->prepare('SELECT * FROM blog ORDER BY created_at DESC');
-
 $query_to->execute();
 $results_rows = $query_to->fetchAll();
+
+$query_user = $pdo->prepare('SELECT * FROM `user` WHERE id_user = :id');
+$query_user->execute(['id' => $_SESSION['id_user']]);
+$row_user = $query_user->fetch();
+
+$_SESSION['admin_role'] = $row_user['admin_role'];
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -72,10 +78,17 @@ if (isset($_SESSION['succes'])) {
 
         <p id="text-blog"> <?= $row['content'] ?>
         </p>
-        <p id="date-blog">Published on <?= date('F j, Y', strtotime($row['created_at'])) ?></p>
+
         <br>
         <a href="Edition_post.php?id=<?= $row['id_blog'] ?>">
-            <button id="button-blog">Edit</button>
+            <?php if ($row_user && $row_user['admin_role'] == 1) {
+                echo '<p id="date-blog">Published on '.date('F j, Y', strtotime($row['created_at'])).'</p>';
+                echo '<button id="button-blog">Edit</button>';
+            } elseif ($row_user && $row_user['admin_role'] == 0) {
+                echo '<p id="date-blog">Published on '.date('F j, Y', strtotime($row['created_at'])).'</p>';
+            } else {
+                echo '<p>Erreur ou utilisateur non trouvé</p>';
+            } ?>
         </a>
     </div>
 

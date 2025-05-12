@@ -51,7 +51,7 @@ $results = $query->fetchAll();
         </div>
         <div class="space-btn">
             <a href="Logout.php">
-                <button class="btn">Log Out</button>
+                <button name="logout" class="btn">Log Out</button>
             </a>
             <a href="edit-user-profile.php?id=">
                 <button class="btn">Edit profile</button>
