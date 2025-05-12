@@ -1,5 +1,12 @@
 
-
+body{
+    background-image: url("../style-image/image_home.jpg");
+    background-color: #d1bce8;
+    background-repeat: no-repeat; /* Empêche la répétition de l’image */
+    /* Optionnel : positionner l’image */
+    background-position: center;  /* Centre l’image dans la section */
+    /* Optionnel : adapter la taille de l’image */
+    background-size: cover;   }
 /*login form */
 p {
     color: #0e0d0d;
@@ -8,24 +15,22 @@ p {
 font-family: "Comfortaa SemiBold" ;
     font-size: larger;
 }
+.welcome{
+    color: #0e0d0d;
+    font-style: italic;
+    font-family: "Comfortaa SemiBold" ;
+    font-size: small;
+    padding-top: 0px;
+    margin-top: 0px;
 
+}
 #login {
     display: flex;
     flex-direction: column;
-    background-color: #1c1cae;
-    gap: 20px;
-    box-shadow: 0px 8px 20px 5px #00000014;
-
-    width: 500px;
-    border-radius: 20px;
-    text-align: center;
-    background-image: url("../style-image/login_img.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    justify-content: center;
-    align-items: center;
+    background-color: #cab3df;
+    ;
+border-radius: 15px;
+  gap: 5px;
 }
 
 form {
@@ -34,8 +39,8 @@ form {
     gap: 15px;
     align-items: center;
     padding: 20px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.32); /* Fond semi-transparent */
+    border-radius: 15px;
+    background-color: rgb(202, 179, 223); /* Fond semi-transparent */
 
 }
 

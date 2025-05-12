@@ -14,3 +14,6 @@ CREATE TABLE blog(
                      user_id integer not null,
                      FOREIGN KEY (user_id) references user(id_user)
 );
+
+ALTER TABLE user
+    ADD COLUMN admin_role INTEGER DEFAULT 0;

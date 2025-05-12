@@ -20,7 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($password_true) {
         $_SESSION['id_user'] = $row['id_user'];
-        header('Location: index.php');
+        $_SESSION['admin_role'] = $row['admin_role'];
+
+        if ($row['admin_role'] == 1) {
+            $_SESSION['succes'] = 'You are register as a administrator ';
+            header('location: index.php');
+
+        } elseif ($row['admin_role'] == 0) {
+            $_SESSION['succes'] = 'Welecome back '.$usernameOrEmail;
+            header('location: index.php');
+        }
     } else {
         $_SESSION['error'] = 'Invalid username or password, try again';
         header('Location: Login.php');
@@ -76,6 +85,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div id="login">
 
         <p>Log in </p>
+        <p class="welcome">Welcome back!
+        </p>
+        <p class="welcome">Enter your details to access your account.
+        </p>
 
         <form method="post" action="Login.php">
             <div class="enter_information">
@@ -102,9 +115,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-
 </body>
 </html>
+
 
 
 
