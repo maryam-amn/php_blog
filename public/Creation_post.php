@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'image' => $image_path,
                     'content' => $post_content,
                     'created_at' => date_create()->format('Y-m-d H:i:s'),
-                    'user_id' => 1]);
+                    'user_id' => $_SESSION['id_user']]);
                 $_SESSION['succes'] = 'The blog has been created successfully';
 
                 header('Location: index.php');
@@ -44,12 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit();
 
             } catch (PDOException $e) {
-                $errors[] = 'Database errors : ' . $e->getMessage();
+                $errors[] = 'Database errors : '.$e->getMessage();
             }
         }
 
     }
 }
+$id_user = $_SESSION['id_user']
+
 ?>
 
 
@@ -68,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user'])) {
+    <?php if (! isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         ?>
 
@@ -82,8 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="Logout.php">
                 <button class="btn">Log Out</button>
             </a>
-            <a href="edit-user-profile.php?id=">
-                <button class="btn">Edit profile</button>
+
+            <a style="height: 0px;width: 0px" href="user_profil.php?id=<?= $id_user ?>">
+                <img alt="user-profil" style="height: 40px;width: 40px; margin: 0px"
+                     src="style-image/profil_picture.png" width="20"
+                     height="20">
             </a>
         </div>
     <?php } ?>
@@ -98,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post" enctype="multipart/form-data">
 
             <label for="title" id="title">Post Title</label>
-            <?php if (!empty($errors['post_title'])) { ?>
+            <?php if (! empty($errors['post_title'])) { ?>
                 <p class="errors_message"><?= $errors['post_title'] ?></p>
             <?php } ?>
             <input type="text" placeholder="Enter post title" class="input" id="title" name="title">
@@ -107,17 +112,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="image">
                 <input type="file" accept="image/png, image/jpeg" id="image" name="images"/>
-                <?php if (!empty($errors['post_image'])) { ?>
+                <?php if (! empty($errors['post_image'])) { ?>
                     <p class="errors_message"><?= $errors['post_image'] ?></p>
                 <?php } ?>
             </div>
 
             <label for="content" id="content">Post content</label>
-            <?php if (!empty($errors['post_content'])) { ?>
+            <?php if (! empty($errors['post_content'])) { ?>
                 <p class="errors_message"><?= $errors['post_content'] ?></p>
             <?php } ?>
             <textarea placeholder="Enter you content " id="content" name="content"></textarea>
-            <?php if (!isset($_SESSION['id_user'])) { ?>
+            <?php if (! isset($_SESSION['id_user'])) { ?>
                 <a href="Login.php">
                     <button type="submit" disabled> Post this blog</button>
                 </a>

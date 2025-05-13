@@ -13,6 +13,7 @@ $query = $pdo->prepare('SELECT * FROM blog ORDER BY created_at DESC');
 $query->execute();
 $results = $query->fetchAll();
 
+$id_user = $_SESSION['id_user']
 ?>
 
 
@@ -30,7 +31,7 @@ $results = $query->fetchAll();
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (! isset($_SESSION['id_user'])) { ?>
+    <?php if (!isset($_SESSION['id_user'])) { ?>
         <div class="homepage-ref">
             <a href="index.php">Home </a>
         </div>
@@ -48,13 +49,16 @@ $results = $query->fetchAll();
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
             <a href="Detail_post.php"> View the details of a post</a>
+
         </div>
         <div class="space-btn">
             <a href="Logout.php">
                 <button name="logout" class="btn">Log Out</button>
             </a>
-            <a href="edit-user-profile.php?id=">
-                <button class="btn">Edit profile</button>
+
+            <a style="height: 0px;width: 0px" href="user_profil.php?id=<?= $id_user ?>">
+                <img style="height: 40px;width: 40px; margin: 0px" src="style-image/profil_picture.png" width="20"
+                     height="20">
             </a>
         </div>
 
@@ -66,7 +70,7 @@ $results = $query->fetchAll();
 </div>
 <?php
 if (isset($_SESSION['succes'])) {
-    echo '<p class="sucess_message">'.$_SESSION['succes'].'</p>';
+    echo '<p class="sucess_message">' . $_SESSION['succes'] . '</p>';
     unset($_SESSION['succes']);
 }
 ?>

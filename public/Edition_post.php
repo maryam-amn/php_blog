@@ -23,7 +23,7 @@ $post_image = $_FILES['avatar'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $image_path = '';
-        if (! empty($post_image['name'])) {
+        if (!empty($post_image['name'])) {
             $upload_result = uploadPicture($post_image);
 
             $image_path = $upload_result['path'];
@@ -41,13 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $_SESSION['succes'] = 'The blog has been edited successfully';
 
-        header('Location: Detail_post.php?id='.$id.'');
+        header('Location: Detail_post.php?id=' . $id);
         exit;
 
     } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
     }
 }
+$id_user = $_SESSION['id_user']
+
 ?>
 
 <!doctype html>
@@ -65,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (! isset($_SESSION['id_user'])) {
+    <?php if (!isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         ?>
     <?php } else { ?>
@@ -78,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="Logout.php">
                 <button class="btn">Log Out</button>
             </a>
-            <a href="edit-user-profile.php?id=">
+            <a href="user_profil.php?id=<?= $id_user ?>">
                 <button class="btn">Edit profile</button>
             </a>
         </div>

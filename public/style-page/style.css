@@ -41,6 +41,7 @@ a:hover {
     justify-items: center;
     width: 500px;
     height: 36px;
+    padding-bottom: 20px;
 }
 
 .homepage-ref {
@@ -518,5 +519,82 @@ mark {
     margin-bottom: 20px;
 }
 
+#profil-test {
+    width: 48%;
+    background-color: #d9cdda;
+    box-shadow: 0px 8px 20px 5px #00000014;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+    height: 90vh;
+    margin-top: 10px;
+    border-radius: 20px;
+}
 
+#profil-test img {
+    width: 100px;
+    height: 100px;
+}
 
+#post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#post-info {
+    margin-top: 70px;
+    background: rgba(202, 179, 223, 0.53);
+
+    padding: 30px;
+    gap: 10px;
+    font-size: 15px;
+    font-family: Cantarell;
+    width: 80%;
+    border-radius: 20px;
+}
+
+#post-info input {
+
+    background: transparent;
+    border: none;
+
+}
+#post-info label{
+    color: #5a1010;
+    padding-bottom: 5px;
+}
+
+#font-user {
+    font-family: "Cantarell Extra Bold";
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#post-user {
+    margin: 10px;
+    background-color: #d8cbe6;
+    height: 400px;
+    width: 350px;
+    text-align: center;
+    border-radius: 25px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;;
+}
+
+#post-user-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 760px;
+}
+#post-errors-postion {
+
+}
