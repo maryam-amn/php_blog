@@ -23,6 +23,8 @@ $row_user = $query_user->fetch();
 
 $_SESSION['admin_role'] = $row_user['admin_role'];
 
+$id_user = $_SESSION['id_user']
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -53,8 +55,10 @@ $_SESSION['admin_role'] = $row_user['admin_role'];
             <a href="Logout.php">
                 <button class="btn">Log Out</button>
             </a>
-            <a href="edit-user-profile.php?id=">
-                <button class="btn">Edit profile</button>
+
+            <a style="height: 0px;width: 0px" href="user_profil.php?id=<?= $id_user ?>">
+                <img style="height: 40px;width: 40px; margin: 0px" src="style-image/profil_picture.png" width="20"
+                     height="20">
             </a>
         </div>
     <?php } ?>
@@ -68,7 +72,8 @@ if (isset($_SESSION['succes'])) {
 <div class="details-space">
 
 
-    <div id="detail-post-page-tt">    <?php if ($results) { ?>
+    <div id="detail-post-page-tt">
+        <?php if ($results) { ?>
         <?php foreach ($results as $row) { ?>
 
         <h4 class="text-paragraphe"><?= htmlspecialchars($row['title']) ?></h4>
@@ -84,6 +89,10 @@ if (isset($_SESSION['succes'])) {
             <?php if ($row_user && $row_user['admin_role'] == 1) {
                 echo '<p id="date-blog">Published on '.date('F j, Y', strtotime($row['created_at'])).'</p>';
                 echo '<button id="button-blog">Edit</button>';
+            } elseif (isset($results[0]) && $_SESSION['id_user'] == $results[0]['user_id']) {
+                echo '<p id="date-blog">Published on '.date('F j, Y', strtotime($row['created_at'])).'</p>';
+
+                echo '<button>Edit your post</button>';
             } elseif ($row_user && $row_user['admin_role'] == 0) {
                 echo '<p id="date-blog">Published on '.date('F j, Y', strtotime($row['created_at'])).'</p>';
             } else {

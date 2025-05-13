@@ -56,11 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             }
         } catch (PDOException $e) {
-            $errors[] = 'Database error : ' . $e->getMessage();
+            $errors[] = 'Database error : '.$e->getMessage();
         }
     }
 
 }
+$id_user = $_SESSION['id_user']
 
 ?>
 
@@ -79,10 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (!isset($_SESSION['id_user'])) : ?>
+    <?php if (! isset($_SESSION['id_user'])) { ?>
 
 
-    <?php else : ?>
+    <?php } else { ?>
         <div class="page-ref">
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
@@ -93,12 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="Logout.php">
                 <button class="btn">Log Out</button>
             </a>
-            <a href="edit-user-profile.php?id=">
-                <button class="btn">Edit profile</button>
+            <a href="user_profil.php?id=<?= $id_user ?>">
             </a>
         </div>
 
-    <?php endif ?>
+    <?php } ?>
 
 </div>
 <style>
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
                 <div class="enter_information">
                     <label for="username" id="username">Username</label>
-                    <?php if (!empty($errors['username'])) { ?>
+                    <?php if (! empty($errors['username'])) { ?>
                         <p id="errors_message"><?= $errors['username'] ?></p>
                     <?php } ?>
                     <input type="text" placeholder="Enter your password" id="username" name="username">
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="enter_information">
                     <label for="email" id="email">Email </label>
-                    <?php if (!empty($errors['email'])) { ?>
+                    <?php if (! empty($errors['email'])) { ?>
                         <p id="errors_message"><?= $errors['email'] ?></p>
                     <?php } ?>
                     <input type="email" placeholder="Enter you email or username" id="email" name="email">
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="enter_information">
                     <label for="password" id="password">Passwords</label>
-                    <?php if (!empty($errors['password'])) { ?>
+                    <?php if (! empty($errors['password'])) { ?>
                         <p id="errors_message"><?= $errors['password'] ?></p>
                     <?php } ?>
                     <input type="password" placeholder="Enter your password" id="password" name="password">
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="enter_information">
                     <label for="confirm_password" id="confirm_password">Confirm your password</label>
-                    <?php if (!empty($errors['confirm_password'])) { ?>
+                    <?php if (! empty($errors['confirm_password'])) { ?>
                         <p id="errors_message"><?= $errors['confirm_password'] ?></p>
                     <?php } ?>
                     <input type="password" placeholder="Enter your password" id="confirm_password"

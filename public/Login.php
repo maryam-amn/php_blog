@@ -21,13 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($password_true) {
         $_SESSION['id_user'] = $row['id_user'];
         $_SESSION['admin_role'] = $row['admin_role'];
+        $_SESSION['username'] = $row['name'];
 
         if ($row['admin_role'] == 1) {
             $_SESSION['succes'] = 'You are register as a administrator ';
             header('location: index.php');
 
         } elseif ($row['admin_role'] == 0) {
-            $_SESSION['succes'] = 'Welecome back '.$usernameOrEmail;
+            $_SESSION['succes'] = 'Welecome back ' . $row['name'];
             header('location: index.php');
         }
     } else {
@@ -36,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     exit();
 }
+$id_user = $_SESSION['id_user']
+
 ?>
 
 
@@ -66,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="Logout.php">
                 <button class="btn">Log Out</button>
             </a>
-            <a href="edit-user-profile.php?id=">
+            <a href="user_profil.php?id=<?= $id_user ?>">
                 <button class="btn">Edit profile</button>
             </a>
         </div>
