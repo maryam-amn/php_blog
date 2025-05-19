@@ -1,12 +1,8 @@
 <?php
 session_start();
-$db = 'sqlite:../Database.db';
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-$pdo = new PDO($db, '', '', $options);
+require_once 'functions/database-connection.php';
+// used to connect to the database
+$pdo = getPDO();
 
 $query = $pdo->prepare('SELECT * FROM blog ORDER BY created_at DESC');
 
@@ -32,16 +28,19 @@ $id_user = $_SESSION['id_user']
     <div class="space-between">
     </div>
     <?php if (!isset($_SESSION['id_user'])) { ?>
-        <div class="homepage-ref">
+        <div class="page-ref">
             <a href="index.php">Home </a>
+
         </div>
         <div class="space-btn">
             <a href="Register.php">
-                <button class="btn">Register</button>
+                <button class="btn"> Register</button>
             </a>
-            <a href="Login.php">
-                <button class="btn">Log in</button>
+            <a href="Login.php" style="padding-top: 0%; width: 50%">
+                <button name="logout" class="btn">Log in</button>
             </a>
+
+
         </div>
 
     <?php } else { ?>
@@ -49,17 +48,17 @@ $id_user = $_SESSION['id_user']
             <a href="index.php">Home </a>
             <a href="Creation_post.php">Create a post</a>
             <a href="Detail_post.php"> View the details of a post</a>
-
         </div>
         <div class="space-btn">
-            <a href="Logout.php">
-                <button name="logout" class="btn">Log Out</button>
-            </a>
-
-            <a style="height: 0px;width: 0px" href="user_profil.php?id=<?= $id_user ?>">
+            <a href="user_profil.php?id=<?= $id_user ?>">
                 <img style="height: 40px;width: 40px; margin: 0px" src="style-image/profil_picture.png" width="20"
                      height="20">
             </a>
+            <a href="Logout.php" style="padding-top: 0%; width: 50%">
+                <button name="logout" class="btn">Log Out</button>
+            </a>
+
+
         </div>
 
     <?php } ?>

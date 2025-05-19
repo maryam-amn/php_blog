@@ -14,7 +14,7 @@ p {
     gap: 20px;
     border-radius: 20px;
     text-align: center;
-    background-image: url("../style-image/login_img.jpg");
+    background-image: url("../style-image/image_home.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -43,12 +43,18 @@ button {
     align-items: center;
     width: 20%;
 }
+input{
+    border: none;
+    background-color: transparent;
+}
 
 label {
     color: #120a0a;
     font-family: "Cantarell  Bold";
     text-align: left;
-    font-size: 15px;}
+    font-size: 15px;
+
+}
 
 .header-to {
     display: flex;
@@ -70,19 +76,9 @@ style-space {
     gap: 5px;
 }
 
-#errors_message{
-    font-size: 12px;
-    padding: 0px;
-    text-align: left;
-    font-style: normal;
-    color: red;
-}
-
-
 
 .btn {
     width: 100%;
-
     margin-top: 0px;
     padding: 10px 20px;
     background-color: #a5a8e5;
@@ -96,6 +92,10 @@ style-space {
 space-btn{
     display: flex;
     gap: 50px;
+}
+.error{
+    background-color: #5a1010;
+    color: white;
 }
 
 

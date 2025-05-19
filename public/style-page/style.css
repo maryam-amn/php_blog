@@ -360,10 +360,6 @@ mark {
     margin-top: 0px;
 }
 
-.space-btn {
-    display: flex;
-    gap: 10px;
-}
 
 .page-details {
     background-color: #ded4df;
@@ -612,4 +608,24 @@ mark {
     .grid {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+.space-btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    width: 15%;
+}
+
+
+.nopost-message {
+    font-size: 14px;
+    max-width: 225px;
+    color: #ffffff;
+    font-style: normal;
+    background-color: #815ca8;
+    padding: 10px;
+    font-family: "Cantarell  Bold";
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

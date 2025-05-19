@@ -1,42 +1,12 @@
 <?php
 session_start();
+require 'functions/database-connection.php';
+require 'functions/login-user.php';
+// used to connect to the database
 
-$db = 'sqlite:../Database.db';
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-$pdo = new PDO($db, '', '', $options);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usernameOrEmail = trim($_POST['username']);
-    $password = $_POST['password'];
-
-    $query = $pdo->prepare('SELECT * FROM `user` WHERE `name` = :input OR `email` = :input');
-    $query->execute(['input' => $usernameOrEmail]);
-    $row = $query->fetch();
-    $password_true = password_verify($password, $row['password']);
-
-    if ($password_true) {
-        $_SESSION['id_user'] = $row['id_user'];
-        $_SESSION['admin_role'] = $row['admin_role'];
-        $_SESSION['username'] = $row['name'];
-
-        if ($row['admin_role'] == 1) {
-            $_SESSION['succes'] = 'You are register as a administrator ';
-            header('location: index.php');
-
-        } elseif ($row['admin_role'] == 0) {
-            $_SESSION['succes'] = 'Welecome back ' . $row['name'];
-            header('location: index.php');
-        }
-    } else {
-        $_SESSION['error'] = 'Invalid username or password, try again';
-        header('Location: Login.php');
-    }
-    exit();
-}
+$pdo = getPDO();
+// Call the function who can log in the user
+loginUser($pdo);
 $id_user = $_SESSION['id_user']
 
 ?>
@@ -66,12 +36,15 @@ $id_user = $_SESSION['id_user']
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">
-            <a href="Logout.php">
-                <button class="btn">Log Out</button>
-            </a>
             <a href="user_profil.php?id=<?= $id_user ?>">
-                <button class="btn">Edit profile</button>
+                <img style="height: 40px;width: 40px; margin: 0px" src="style-image/profil_picture.png" width="20"
+                     height="20">
             </a>
+            <a href="Logout.php" style="padding-top: 0%; width: 50%">
+                <button name="logout" class="btn">Log Out</button>
+            </a>
+
+
         </div>
 
     <?php } ?>
@@ -111,7 +84,6 @@ $id_user = $_SESSION['id_user']
             <button>Log in</button>
             <div class="t">
                 <a href="Register.php">Don't have an account ? </a>
-                <a> Forget password ?</a>
             </div>
         </form>
 

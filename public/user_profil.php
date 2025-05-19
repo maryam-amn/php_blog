@@ -1,84 +1,31 @@
 <?php
 session_start();
-$db = 'sqlite:../Database.db';
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
+require 'functions/database-connection.php';
+require 'functions/user-profile.php';
+//used to get connected to the database
+$pdo = getPDO();
 
-if (! isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['id_user'])) {
     header('Location: Login.php');
     exit();
 }
 
-$pdo = new PDO($db, '', '', $options);
 $id_user = $_SESSION['id_user'];
-
+// select user who is connected
 $query = $pdo->prepare('SELECT * FROM user WHERE id_user = :id_user');
 $query->execute([':id_user' => $id_user]);
 $results = $query->fetch();
+// select all the blog of  user who is connected, and display them
 
-$query_to = $pdo->prepare('SELECT * FROM blog WHERE user_id = :id_user');
+$query_to = $pdo->prepare('SELECT * FROM blog WHERE user_id = :id_user ORDER BY created_at DESC ');
 $query_to->execute([':id_user' => $id_user]);
 $results_rows = $query_to->fetchAll();
 
-// Update
+// Update the username or email field
 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
 $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (empty($username)) {
-        $_SESSION['error'] = 'Username is required';
-    } elseif (strlen(trim($username)) < 3) {
-        $_SESSION['error'] = 'Username is too short';
-    }
-    if (empty($email)) {
-        $_SESSION['error'] = 'You need to provide a valid email';
-    }
-    if (empty($username) && empty($email)) {
-        $_SESSION['error'] = 'Username and email is required';
-    }
-
-    if (empty($_SESSION['error'])) {
-        try {
-            $check = $pdo->prepare('SELECT id_user FROM user WHERE (name = :name OR email = :email) AND id_user != :id_user');
-            $check->execute([
-                'name' => $username,
-                'email' => $email,
-                'id_user' => $id_user,
-            ]);
-
-            if ($check->fetch()) {
-                $_SESSION['error'] = 'Username or email already in use by another account.';
-            } else {
-                $update = $pdo->prepare('UPDATE user SET name = :name, email = :email WHERE id_user = :id_user');
-                $update->execute([
-                    'name' => $username,
-                    'email' => $email,
-                    'id_user' => $id_user,
-                ]);
-                $query_user = $pdo->prepare('SELECT * FROM user WHERE id_user = :id_user');
-                $query_user->execute(['id_user' => $id_user]);
-                $row = $query_user->fetch();
-
-                if ($username != $results['name']) {
-                    $_SESSION['succes'] = 'Your username has been updated to  '.$row['name'];
-                }
-                if ($email != $results['email'] && $username != $results['name']) {
-                    $_SESSION['succes'] = 'Your email has been updated to  '.$row['name'].'and your username has been updated to  '.$row['email'];
-                } elseif ($email != $results['email']) {
-                    $_SESSION['succes'] = 'Your email has been updated to  '.$row['email'];
-                }
-
-                header('Location: user_profil.php?id='.$id_user);
-                exit();
-            }
-
-        } catch (PDOException $e) {
-            $_SESSION['error'] = 'Database error: '.$e->getMessage();
-        }
-    }
+if ($username && $email && $results && $id_user && $pdo) {
+    user($pdo, $results, $id_user, $username, $email);
 }
 ?>
 
@@ -93,18 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="header">
     <div class="space-between"></div>
-    <?php if (! isset($_SESSION['id_user'])) { ?>
-        <div class="homepage-ref">
+    <?php if (!isset($_SESSION['id_user'])) { ?>
+        <div class="page-ref">
             <a href="index.php">Home </a>
+
         </div>
         <div class="space-btn">
             <a href="Register.php">
-                <button class="btn">Register</button>
+                <button class="btn"> Register</button>
             </a>
-            <a href="Login.php">
-                <button class="btn">Log in</button>
+            <a href="Login.php" style="padding-top: 0%; width: 50%">
+                <button name="logout" class="btn">Log in</button>
             </a>
         </div>
+
     <?php } else { ?>
         <div class="page-ref">
             <a href="index.php">Home </a>
@@ -126,8 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <p id="font-user">All Your post</p>
         <?php if (empty($results_rows)) { ?>
-            <p style="display: flex; justify-content: center" class="errors_message_login"> You haven't made any
-                posts. </p>
+            <p style="display: flex; justify-content: center" class="nopost-message"> No content has been shared so far.
+            </p>
+            <p style="width: 150%; text-align: center" class="nopost-message">Why not add your first post and get
+                started ?</p>
         <?php } ?>
         <div id="post-user-container">
 
@@ -159,6 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="username" value="<?= htmlspecialchars($results['name']) ?>">
                 <label>Email:</label>
                 <input type="text" name="email" value="<?= htmlspecialchars($results['email']) ?>">
+
+
         </div><?php
         if (isset($_SESSION['error'])) { ?>
             <p class="errors_message_login"><?php echo htmlspecialchars($_SESSION['error']); ?></p>
@@ -169,8 +122,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p class="sucess_message"><?php echo htmlspecialchars($_SESSION['succes']); ?></p>
             <?php unset($_SESSION['succes']);
         } ?>
-        <button type="submit">Edit my profile</button>
-        </form>
+        <div style="display: flex; width: 50%; gap: 5%">
+            <button type="submit">Edit my profile</button>
+            </form>
+            <a href="ChangePasword.php">
+                <button>Change Pasword</button>
+            </a>
+        </div>
 
 
     </div>

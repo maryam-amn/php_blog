@@ -1,55 +1,17 @@
 <?php
 session_start();
 require_once 'picture_upload.php';
+require 'functions/database-connection.php';
+// to get the input of the user
+
 $post_title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
 $post_content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 $post_image = $_FILES['images'];
 $errors = [];
 
-$dbs = 'sqlite:../Database.db';
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if (empty($post_title)) {
-        $errors['post_title'] = '* The title of the post is required';
-    } elseif (empty($post_content)) {
-        $errors['post_content'] = '* The content is required';
-    } elseif ($post_image['error'] > 0) {
-        $errors['post_image'] = '* The image is required';
-    } else {
-        $upload_result = uploadPicture($post_image);
-        if (isset($upload_result['error'])) {
-            $errors['post_image'] = $upload_result['error'];
-        } else {
-            $image_path = $upload_result['path'];
-            try {
-
-                $pdo = new PDO($dbs, '', '', $options);
-                $query = $pdo->prepare('INSERT INTO blog (title, image, content, created_at,user_id) VALUES (:title, :image, :content, :created_at, :user_id)');
-                $query->execute([
-                    'title' => $post_title,
-                    'image' => $image_path,
-                    'content' => $post_content,
-                    'created_at' => date_create()->format('Y-m-d H:i:s'),
-                    'user_id' => $_SESSION['id_user']]);
-                $_SESSION['succes'] = 'The blog has been created successfully';
-
-                header('Location: index.php');
-
-                exit();
-
-            } catch (PDOException $e) {
-                $errors[] = 'Database errors : '.$e->getMessage();
-            }
-        }
-
-    }
-}
+require 'functions/creation-post.php';
+// create a post and display the correct message
+creationPost($post_image, $post_title, $post_content, $errors);
 $id_user = $_SESSION['id_user']
 
 ?>
@@ -70,7 +32,7 @@ $id_user = $_SESSION['id_user']
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (! isset($_SESSION['id_user'])) {
+    <?php if (!isset($_SESSION['id_user'])) {
         header('Location: Login.php');
         ?>
 
@@ -81,15 +43,15 @@ $id_user = $_SESSION['id_user']
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">
-            <a href="Logout.php">
-                <button class="btn">Log Out</button>
-            </a>
-
-            <a style="height: 0px;width: 0px" href="user_profil.php?id=<?= $id_user ?>">
-                <img alt="user-profil" style="height: 40px;width: 40px; margin: 0px"
-                     src="style-image/profil_picture.png" width="20"
+            <a href="user_profil.php?id=<?= $id_user ?>">
+                <img style="height: 40px;width: 40px; margin: 0px" src="style-image/profil_picture.png" width="20"
                      height="20">
             </a>
+            <a href="Logout.php" style="padding-top: 0%; width: 50%">
+                <button name="logout" class="btn">Log Out</button>
+            </a>
+
+
         </div>
     <?php } ?>
 
@@ -103,7 +65,7 @@ $id_user = $_SESSION['id_user']
         <form method="post" enctype="multipart/form-data">
 
             <label for="title" id="title">Post Title</label>
-            <?php if (! empty($errors['post_title'])) { ?>
+            <?php if (!empty($errors['post_title'])) { ?>
                 <p class="errors_message"><?= $errors['post_title'] ?></p>
             <?php } ?>
             <input type="text" placeholder="Enter post title" class="input" id="title" name="title">
@@ -112,17 +74,17 @@ $id_user = $_SESSION['id_user']
 
             <div class="image">
                 <input type="file" accept="image/png, image/jpeg" id="image" name="images"/>
-                <?php if (! empty($errors['post_image'])) { ?>
+                <?php if (!empty($errors['post_image'])) { ?>
                     <p class="errors_message"><?= $errors['post_image'] ?></p>
                 <?php } ?>
             </div>
 
             <label for="content" id="content">Post content</label>
-            <?php if (! empty($errors['post_content'])) { ?>
+            <?php if (!empty($errors['post_content'])) { ?>
                 <p class="errors_message"><?= $errors['post_content'] ?></p>
             <?php } ?>
             <textarea placeholder="Enter you content " id="content" name="content"></textarea>
-            <?php if (! isset($_SESSION['id_user'])) { ?>
+            <?php if (!isset($_SESSION['id_user'])) { ?>
                 <a href="Login.php">
                     <button type="submit" disabled> Post this blog</button>
                 </a>
