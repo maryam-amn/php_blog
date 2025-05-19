@@ -1,25 +1,20 @@
 <?php
 session_start();
-$db = 'sqlite:../Database.db';
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-$pdo = new PDO($db, '', '', $options);
+require_once 'functions/database-connection.php';
+require 'functions/query-db.php';
+// used to connect to the database
+
+$pdo = getPDO();
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$query = $pdo->prepare('SELECT * FROM blog WHERE id_blog = :id');
-$query->execute(['id' => $id]);
-$results = $query->fetchAll();
 
+$results = querydetailsgetblog($pdo, $id);
+// to get the blog  and diplay them
 $query_to = $pdo->prepare('SELECT * FROM blog ORDER BY created_at DESC');
 $query_to->execute();
 $results_rows = $query_to->fetchAll();
 
-$query_user = $pdo->prepare('SELECT * FROM `user` WHERE id_user = :id');
-$query_user->execute(['id' => $_SESSION['id_user']]);
-$row_user = $query_user->fetch();
+$row_user = querydetailsgetuser($pdo, $_SESSION['id_user']);
 
 $_SESSION['admin_role'] = $row_user['admin_role'];
 
@@ -52,14 +47,15 @@ $id_user = $_SESSION['id_user']
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">
-            <a href="Logout.php">
-                <button class="btn">Log Out</button>
-            </a>
-
-            <a style="height: 0px;width: 0px" href="user_profil.php?id=<?= $id_user ?>">
+            <a href="user_profil.php?id=<?= $id_user ?>">
                 <img style="height: 40px;width: 40px; margin: 0px" src="style-image/profil_picture.png" width="20"
                      height="20">
             </a>
+            <a href="Logout.php" style="padding-top: 0%; width: 50%">
+                <button name="logout" class="btn">Log Out</button>
+            </a>
+
+
         </div>
     <?php } ?>
 </div>

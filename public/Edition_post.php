@@ -1,53 +1,23 @@
 <?php
 require_once 'picture_upload.php';
 session_start();
+require 'functions/database-connection.php';
+require 'functions/edition-post.php';
+// used to connect to the database
 
-$db = 'sqlite:../Database.db';
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-$pdo = new PDO($db, '', '', $options);
-// View
+$pdo = getPDO();
+// View, to have a page
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$query = $pdo->prepare('SELECT * FROM blog WHERE id_blog = :id');
 
+$query = $pdo->prepare('SELECT * FROM blog WHERE id_blog = :id');
 $query->execute(['id' => $id]);
 $results = $query->fetchAll();
-
+// UPDATE
 $post_title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
 $post_content = filter_input(INPUT_POST, 'textarea', FILTER_SANITIZE_SPECIAL_CHARS);
-// UPDATE
 $post_image = $_FILES['avatar'];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $image_path = '';
-        if (!empty($post_image['name'])) {
-            $upload_result = uploadPicture($post_image);
+edtionpost($results, $pdo, $post_content, $post_title, $id);
 
-            $image_path = $upload_result['path'];
-        } else {
-            $image_path = $results[0]['image'];
-        }
-
-        $query_to = $pdo->prepare('UPDATE blog SET content = :content, title = :title, image = :image WHERE id_blog = :id');
-        $query_to->execute([
-            'content' => $post_content,
-            'title' => $post_title,
-            'image' => $image_path,
-            'id' => $id,
-
-        ]);
-        $_SESSION['succes'] = 'The blog has been edited successfully';
-
-        header('Location: Detail_post.php?id=' . $id);
-        exit;
-
-    } catch (Exception $e) {
-        $_SESSION['error'] = $e->getMessage();
-    }
-}
 $id_user = $_SESSION['id_user']
 
 ?>
@@ -77,12 +47,15 @@ $id_user = $_SESSION['id_user']
             <a href="Detail_post.php"> View the details of a post</a>
         </div>
         <div class="space-btn">
-            <a href="Logout.php">
-                <button class="btn">Log Out</button>
-            </a>
             <a href="user_profil.php?id=<?= $id_user ?>">
-                <button class="btn">Edit profile</button>
+                <img style="height: 40px;width: 40px; margin: 0px" src="style-image/profil_picture.png" width="20"
+                     height="20">
             </a>
+            <a href="Logout.php" style="padding-top: 0%; width: 50%">
+                <button name="logout" class="btn">Log Out</button>
+            </a>
+
+
         </div>
 
     <?php } ?>

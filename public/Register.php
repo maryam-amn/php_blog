@@ -1,5 +1,5 @@
 <?php
-
+require 'functions/database-connection.php';
 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
 $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -8,15 +8,8 @@ $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE
 $errors = [];
 $errors_username = [];
 
-$dbs = 'sqlite:../Database.db';
-
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // display the right message if the user didn't enter a field
 
     if (empty($username)) {
         $errors['username'] = 'Username is required';
@@ -29,20 +22,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen(trim($password)) < 6) {
         $errors['password'] = 'Password is too short, enter a least 6 characters';
     } elseif (empty($confirm_password)) {
-        $errors['confirm_password'] = 'Confirm password ';
+        $errors['confirm_password'] = 'Confirm your password ';
     } elseif ($password !== $confirm_password) {
         $errors['confirm_password'] = 'Passwords do not match';
     } else {
         try {
-            $db = new PDO($dbs, '', '', $options);
+            // used to connect to the database
+            $db = getPDO();
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && $username && $password && $email) {
+                // select the user with his email or name
+
                 $check = $db->prepare('SELECT * FROM user WHERE name = :name OR email = :email');
                 $check->execute(['name' => $username, 'email' => $email]);
 
-                if ($check->fetchColumn() > 0) {
-                    $errors[] = 'Username or email already exists';
+                if ($check->fetch()) {
+                    // check if the user exist in th database and display a message
+                    $errors['user_exist'] = 'Username or email already exists';
+
                 } else {
+                    // if not, create the user and redirect to the login page
                     $query = $db->prepare('INSERT INTO user (name, email, password) VALUES (:name, :email, :password)');
 
                     $query->execute([
@@ -56,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             }
         } catch (PDOException $e) {
-            $errors[] = 'Database error : '.$e->getMessage();
+            $errors[] = 'Database error : ' . $e->getMessage();
         }
     }
 
@@ -80,7 +79,7 @@ $id_user = $_SESSION['id_user']
 <div class="header">
     <div class="space-between">
     </div>
-    <?php if (! isset($_SESSION['id_user'])) { ?>
+    <?php if (!isset($_SESSION['id_user'])) { ?>
 
 
     <?php } else { ?>
@@ -110,38 +109,40 @@ $id_user = $_SESSION['id_user']
         <div id="login">
 
             <p>Create your account </p>
-
+            <?php if (!empty($errors['user_exist'])) { ?>
+                <p class="errors_message_login"><?= $errors['user_exist'] ?></p>
+            <?php } ?>
             <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
                 <div class="enter_information">
                     <label for="username" id="username">Username</label>
-                    <?php if (! empty($errors['username'])) { ?>
-                        <p id="errors_message"><?= $errors['username'] ?></p>
+                    <?php if (!empty($errors['username'])) { ?>
+                        <p class="errors_message_login"><?= $errors['username'] ?></p>
                     <?php } ?>
-                    <input type="text" placeholder="Enter your password" id="username" name="username">
+                    <input type="text" placeholder="Enter your username" id="username" name="username">
                 </div>
 
                 <div class="enter_information">
                     <label for="email" id="email">Email </label>
-                    <?php if (! empty($errors['email'])) { ?>
-                        <p id="errors_message"><?= $errors['email'] ?></p>
+                    <?php if (!empty($errors['email'])) { ?>
+                        <p class="errors_message_login"><?= $errors['email'] ?></p>
                     <?php } ?>
-                    <input type="email" placeholder="Enter you email or username" id="email" name="email">
+                    <input type="email" placeholder="Enter you email " id="email" name="email">
                 </div>
 
                 <div class="enter_information">
                     <label for="password" id="password">Passwords</label>
-                    <?php if (! empty($errors['password'])) { ?>
-                        <p id="errors_message"><?= $errors['password'] ?></p>
+                    <?php if (!empty($errors['password'])) { ?>
+                        <p class="errors_message_login"><?= $errors['password'] ?></p>
                     <?php } ?>
                     <input type="password" placeholder="Enter your password" id="password" name="password">
                 </div>
 
                 <div class="enter_information">
                     <label for="confirm_password" id="confirm_password">Confirm your password</label>
-                    <?php if (! empty($errors['confirm_password'])) { ?>
-                        <p id="errors_message"><?= $errors['confirm_password'] ?></p>
+                    <?php if (!empty($errors['confirm_password'])) { ?>
+                        <p class="errors_message_login"><?= $errors['confirm_password'] ?></p>
                     <?php } ?>
-                    <input type="password" placeholder="Enter your password" id="confirm_password"
+                    <input type="password" placeholder="Confirm your password" id="confirm_password"
                            name="confirm_password">
                 </div>
 
@@ -162,4 +163,3 @@ $id_user = $_SESSION['id_user']
 
 </body>
 </html>
-
