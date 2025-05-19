@@ -112,7 +112,8 @@ if ($username && $email && $results && $id_user && $pdo) {
                 <input type="text" name="email" value="<?= htmlspecialchars($results['email']) ?>">
 
 
-        </div><?php
+        </div>
+        <?php
         if (isset($_SESSION['error'])) { ?>
             <p class="errors_message_login"><?php echo htmlspecialchars($_SESSION['error']); ?></p>
             <?php unset($_SESSION['error']);
@@ -121,14 +122,17 @@ if ($username && $email && $results && $id_user && $pdo) {
         if (isset($_SESSION['succes'])) { ?>
             <p class="sucess_message"><?php echo htmlspecialchars($_SESSION['succes']); ?></p>
             <?php unset($_SESSION['succes']);
-        } ?>
-        <div style="display: flex; width: 50%; gap: 5%">
-            <button type="submit">Edit my profile</button>
-            </form>
-            <a href="ChangePasword.php">
-                <button>Change Pasword</button>
-            </a>
+        } ?> <div id="button-profil">
+
+            <div  >
+                <button type="submit">Edit my profile</button>
+                </form>
+                <a href="ChangePasword.php">
+                    <button>Change Pasword</button>
+                </a>
+            </div>
         </div>
+
 
 
     </div>

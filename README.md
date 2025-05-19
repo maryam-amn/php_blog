@@ -11,7 +11,7 @@ This is a web blog application that allows users to create, edit, and view blogs
 - **Add a Blog**: Users can add a blog with an image, title, and content.
 - **Edit a Blog**: Users can edit the content, title, and image of their blogs.
 - **View Posts**: Users can view blogs created by all users.
-- **Edit Profile Page**: Users can change their username or email and view all the posts they have created.
+- **Edit Profile Page**: Users can change their username, email or password and view all the posts they have created.
 
 ## Technologies Used
 

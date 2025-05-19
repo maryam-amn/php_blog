@@ -53,7 +53,7 @@ a:hover {
 
 #content-homepage {
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* ✅ Limite à 2 lignes */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -68,25 +68,20 @@ a:hover {
     gap: 10px;
     align-items: center;
     padding-left: 80px;
-
+    margin-bottom: 10%;
 }
 
-.text button {
-    text-align: right;
-}
 
 #text-p {
     text-align: right;
     width: 80px;
     height: 20px;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* ✅ Limite à 2 lignes */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 
-    margin: 0px;
-    text-align: center;
     text-decoration: none;
 }
 
@@ -170,33 +165,28 @@ button:hover {
 }
 
 /*Homepage */
+
+
 .homepage {
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 60px;
     padding: 30px;
     padding-left: 80px;
-    gap: 40px;
-}
-
-
-.font-post-homepage {
-    background-color: #d8cbe6;
-    width: 400px;
-    height: 350px;
-    padding: 5px;
-    border-radius: 20px;
-    align-items: center;
-    text-align: center;
 }
 
 .font-post-homepage {
     background-color: #d8cbe6;
-    width: 400px;
-
-    padding: 5px;
     border-radius: 20px;
     align-items: center;
     text-align: center;
+    max-width: 340px;
+    width: 100%;
+    box-sizing: border-box;
+
 }
+
 
 .errors_message {
     font-size: 16px;
@@ -266,6 +256,10 @@ img {
     width: 360px;
 }
 
+.font-post-homepage h4 {
+    margin-top: 5%;
+}
+
 /**/
 .detail-post {
     background-color: #d8cbe6;
@@ -282,6 +276,7 @@ img {
     width: 100%;
     font-family: "Cantarell Thin";
     font-size: 25px;
+    margin-top: 10%;
 }
 
 .detail-post p {
@@ -415,6 +410,7 @@ mark {
 .page-details-style img {
     margin-left: 35px;
     background-color: transparent;
+    margin-bottom: 10%;
 }
 
 .detail-post-page {
@@ -478,7 +474,7 @@ mark {
 }
 
 .detail-post-transparent {
-    background-color: blue; /* ✅ Fond transparent */
+    background-color: blue;
     width: 800px;
     padding: 5px;
     border-radius: 20px;
@@ -524,7 +520,7 @@ mark {
     flex-direction: column;
     gap: 50px;
     align-items: center;
-    height: 90vh;
+    height: 100vh;
     margin-top: 10px;
     border-radius: 20px;
 }
@@ -558,9 +554,18 @@ mark {
     border: none;
 
 }
-#post-info label{
+
+#post-info label {
     color: #5a1010;
     padding-bottom: 5px;
+}
+
+#button-profil {
+    display: flex;
+    width: 80%;
+    justify-content: center;
+    margin-bottom: 40%;
+    border-radius: 20px;
 }
 
 #font-user {
@@ -591,9 +596,11 @@ mark {
     gap: 20px;
     width: 760px;
 }
+
 #post-errors-postion {
 
 }
+
 @media (min-width: 640px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);
@@ -609,6 +616,7 @@ mark {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
 .space-btn {
     display: flex;
     justify-content: flex-end;
@@ -616,7 +624,6 @@ mark {
     gap: 10px;
     width: 15%;
 }
-
 
 .nopost-message {
     font-size: 14px;
